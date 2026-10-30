@@ -1,6 +1,7 @@
 import { Component } from "react";
 import style from "./SignUpForm.module.css";
 import { TfiGallery } from "react-icons/tfi";
+import classNames from "classnames";
 
 const INIT_VALS = {
   fullname: "",
@@ -71,22 +72,40 @@ export default class SignUpForm extends Component {
       isEmailValid,
       isPasswordValid,
     } = this.state;
-    const nameInputClass = `${style["form-input"]} ${fullname && (isFullnameValid ? style["form-valid"] : style["form-invalid"])}`;
-    const emailInputClass = `${style["form-input"]} ${email && (isEmailValid ? style["form-valid"] : style["form-invalid"])}`;
-    const passwordInputClass = `${style["form-input"]} ${password && (isPasswordValid ? style["form-valid"] : style["form-invalid"])}`;
+
+    const nameInputClass = classNames({
+      [style["form-input"]]: true,
+      [style["form-valid"]]: isFullnameValid && fullname,
+      [style["form-invalid"]]: !isFullnameValid && fullname,
+    });
+
+    const emailInputClass = classNames({
+      [style["form-input"]]: true,
+      [style["form-valid"]]: isEmailValid && email,
+      [style["form-invalid"]]: !isEmailValid && email,
+    });
+
+    const passwordInputClass = classNames({
+      [style["form-input"]]: true,
+      [style["form-valid"]]: isPasswordValid && password,
+      [style["form-invalid"]]: !isPasswordValid && password,
+    });
     return (
       <article className={style["form-wrap"]}>
-        <form className={style["form"]}>
+        <div className={style["formHeadingWrapper"]}>
           <span className={style["image-upload"]}>
             <TfiGallery color="white" fontSize="2rem" />
           </span>
           <h1 className={style["form-title"]}>Create Your Account</h1>
+        </div>
+        <form className={style["form"]}>
           <label className={style["form-label"]} htmlFor="fullname">
             FULL NAME
           </label>
           <input
             className={nameInputClass}
             type="text"
+            id="fullname"
             name="fullname"
             placeholder="John Doe"
             tabIndex="1"
@@ -100,6 +119,7 @@ export default class SignUpForm extends Component {
             className={emailInputClass}
             type="text"
             name="email"
+            id="email"
             placeholder="johndoe@gmail.com"
             tabIndex="2"
             onChange={this.handleEmailChange}
@@ -111,7 +131,8 @@ export default class SignUpForm extends Component {
           <input
             className={passwordInputClass}
             type="password"
-            name="email"
+            name="password"
+            id="password"
             placeholder="Password"
             tabIndex="3"
             onChange={this.handlePasswordChange}
@@ -139,17 +160,17 @@ export default class SignUpForm extends Component {
           <button
             className={style["form-button"]}
             tabIndex="5"
-            onClick={this.handleSubmit}
+            onSubmit={this.handleSubmit}
           >
             Sign Up
           </button>
-          <p className={style["bold"]}>
-            I`m already a member!{" "}
-            <a href="" target="_self">
-              Sign In
-            </a>
-          </p>
         </form>
+        <p className={style["bold"]}>
+          I`m already a member!{" "}
+          <a href="" target="_self">
+            Sign In
+          </a>
+        </p>
       </article>
     );
   }

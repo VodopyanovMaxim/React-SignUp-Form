@@ -17,7 +17,12 @@
   flex-direction: column;
   gap: 20px;
 }
-
+.formHeadingWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 30px 20px;
+}
 .image-upload {
   align-self: center;
   width: 75px;
